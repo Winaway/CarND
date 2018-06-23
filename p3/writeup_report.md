@@ -87,15 +87,23 @@ To capture good driving behavior, I first recorded two laps on track one using c
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to recover from the sides. 
 
+The images from side cameras were used to improve the input data.Here is two example images from side cameras:
 
-To augment the data sat, I also flipped images and angles which is over 0.05 .
+Left side camera image
+![left_2018_04_30_23_16_07_830.jpg](attachment:left_2018_04_30_23_16_07_830.jpg)
+
+Right side camera image
+![right_2018_04_30_23_16_07_830.jpg](attachment:right_2018_04_30_23_16_07_830.jpg)
+
+To augment the dataset, 
+I also flipped images and angles which is over 0.05 .
 
 For example, here is an image that has then been flipped:
 
 ![center_2016_12_01_13_33_04_588.jpg](attachment:center_2016_12_01_13_33_04_588.jpg)
 ![fliped_center_2016_12_01_13_33_04_588.jpg](attachment:fliped_center_2016_12_01_13_33_04_588.jpg)
 
-After the collection process, I had 18052 number of data points. 
+After the collection process, I had 53109 number of data points. 
 
 I finally randomly shuffled the data set and put 20% of the data into a validation set. 
 
