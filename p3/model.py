@@ -35,13 +35,34 @@ def generator(samples, batch_size=32):
             y_train = np.array(angles)
             yield sklearn.utils.shuffle(X_train, y_train)
 
+
+
 # ## Preprocess the data
 samples = []
 fliped_samples = []
+left_samples = []
+right_samples = []
 with open('./data/driving_log.csv') as csvfile:
     reader = csv.reader(csvfile)
     for line in reader:
         samples.append(line)
+for sample in samples:
+    steering_center = float(sample[3])
+    # create adjusted steering measurements for the side camera images
+    correction = 0.2 # this is a parameter to tune
+    steering_left = steering_center + correction
+    steering_right = steering_center - correction
+    left_line = ['','','',0,0,0,0]
+    right_line = ['','','',0,0,0,0]
+    left_line[0] = sample[1]
+    right_line[0] = sample[2]
+    left_line[3] = steering_left
+    right_line[3] = steering_right
+    left_samples.append(left_line)
+    right_samples.append(right_line)
+samples = np.concatenate((samples, left_samples,right_samples), axis=0)
+
+
 for sample in samples:
 #     print(sample[3])
     if float(sample[3]) > 0.05:
@@ -56,6 +77,8 @@ for sample in samples:
         flip_line[3] = angle_fliped
         fliped_samples.append(flip_line)
 all_samples = np.concatenate((samples, fliped_samples), axis=0)
+
+print(all_samples.shape)
 
 from sklearn.model_selection import train_test_split
 train_samples, validation_samples = train_test_split(all_samples, test_size=0.2)
@@ -76,7 +99,7 @@ model.add(Conv2D(48, (5, 5),strides=(2, 2), activation='relu'))
 model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(Flatten())
-model.add(Dense(100))
+model.add(Dense(100, activation='relu'))
 model.add(Dense(50))
 model.add(Dense(10))
 model.add(Dense(1))
@@ -85,11 +108,13 @@ model.compile(loss='mse', optimizer='adam')
 
 
 # ## Train the model
+
 model.fit_generator(train_generator, steps_per_epoch= /
             len(train_samples)/128, validation_data=validation_generator, /
-            validation_steps=len(validation_samples)/128, nb_epoch=3)
+            validation_steps=len(validation_samples)/128, nb_epoch=8)
 
 
 # ## Save the model
+
 model.save('./model.h5')
 
