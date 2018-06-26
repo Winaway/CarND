@@ -1,8 +1,9 @@
 
 # **Behavioral Cloning** 
 
+[//]: # (Image References)
 
-
+[image1]: ../NVidia_Network.png "Grayscale"
 ---
 
 **Behavioral Cloning Project**
@@ -67,7 +68,7 @@ For details about how I created the training data, see the next section.
 
 In this project,I choose to use NVidia Network to clone the behave. The following figure shows the network architecture, which consists of 9 layers, including a normalization layer, 5 convolutional layers, and 3 fully connected layers. The input image is split into YUV planes and passed to the network.
 
-![NVidia_Network.png](attachment:NVidia_Network.png)
+![NVidia_Network.png](./NVidia_Network.png)
 
 The first layer of the network performs image normalization. The normalizer is hard-coded and is not adjusted in the learning process. Performing normalization in the network allows the normalization scheme to be altered with the network architecture, and to be accelerated via GPU processing.
 
